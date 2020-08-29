@@ -1,0 +1,26 @@
+@import "../../variables";
+.custom-button {
+  width: 200px;
+  border: none;
+  padding: 10px 30px;
+  margin: 0 auto;
+  cursor: pointer;
+  border-radius: 5px;
+  color: $secondary-color;
+  text-transform: uppercase;
+  font-size: 15px;
+  background-color: $primary-color;
+  opacity: 0.9;
+  transition: all 0.3s;
+
+  &.small {
+    font-size: 10px;
+    padding: 5px 15px;
+    width: 100px;
+    margin: auto;
+  }
+  &:hover {
+    transform: scale(1.01);
+    opacity: 1;
+  }
+}

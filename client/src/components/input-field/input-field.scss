@@ -1,0 +1,30 @@
+@import "../../variables";
+.field-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 60px;
+  .form-heading {
+    font-size: x-large;
+  }
+  .input-field {
+    display: block;
+    width: 100%;
+    border: 1px $ternary-color solid;
+    border-radius: 5px;
+    padding: 10px 5px;
+    font-size: 18px;
+
+    &::placeholder {
+      color: $primary-color;
+      opacity: 0.5;
+    }
+  }
+  .label {
+    font-size: larger;
+    text-transform: capitalize;
+    top: -30px;
+    left: 5px;
+    position: absolute;
+  }
+}

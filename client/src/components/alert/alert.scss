@@ -1,0 +1,17 @@
+.alert {
+  position: fixed;
+  top: 0;
+  left: 35vw;
+  width: 400px;
+  border-radius: 5px;
+  padding: 10px;
+  overflow: hidden;
+  &.success {
+    background-color: #5cb85c;
+    color: wheat;
+  }
+  &.error {
+    background-color: #ff0033;
+    color: wheat;
+  }
+}

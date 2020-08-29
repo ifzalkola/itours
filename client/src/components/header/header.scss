@@ -1,0 +1,45 @@
+@import "../../variables";
+.header {
+  background-color: $primary-color;
+  margin: 15px 15px;
+  display: flex;
+  justify-content: space-between;
+  .logo {
+    width: 100px;
+    display: block;
+  }
+  .options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+    .option {
+      padding: 10px;
+      cursor: pointer;
+      border: 3px transparent solid;
+      border-radius: 5px;
+      transition: border-color ease-in-out;
+      &:hover {
+        animation: hover-effect 1s;
+        animation-fill-mode: forwards;
+      }
+    }
+  }
+}
+@keyframes hover-effect {
+  0% {
+    border-bottom-color: $secondary-color;
+  }
+  25% {
+    border-right-color: $secondary-color;
+  }
+  50% {
+    border-top-color: $secondary-color;
+  }
+  75% {
+    border-left-color: $secondary-color;
+  }
+  100% {
+    border-bottom-color: $secondary-color;
+  }
+}
