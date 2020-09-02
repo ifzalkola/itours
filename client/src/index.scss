@@ -5,12 +5,22 @@ body {
   box-sizing: border-box;
   background-color: #fff6fa;
   color: #ff5976;
-  font-family: 'Architects Daughter', cursive;
+  font-family: "Architects Daughter", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: $primary-color;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: $secondary-color;
+}
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }

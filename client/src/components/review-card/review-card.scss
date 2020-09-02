@@ -1,0 +1,44 @@
+@import "../../variables";
+.review-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  // position: relative;
+  height: 100%;
+  min-width: 33%;
+  max-width: 33%;
+  background: $primary-color;
+  margin: 0 1.2rem;
+  border-radius: 10px;
+
+  .profile-wrapper {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    .profile-photo {
+      // background-image: url("../images/michael-dam-mEZ3PoFGs_k-unsplash.jpg");
+      background-size: 100% 100%;
+      flex: 9;
+      margin-top: 1rem;
+      width: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 100% 100%;
+    }
+    .username {
+      padding-top: 0.5em;
+      width: 100%;
+      flex: 2;
+      text-align: center;
+    }
+  }
+  .review-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 55%;
+    padding: 5px 0;
+  }
+}

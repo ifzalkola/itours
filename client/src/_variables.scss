@@ -1,4 +1,9 @@
-$primary-color: #2F1A35;
-$secondary-color: #FF5976;
+$primary-color: #2f1a35;
+$secondary-color: #ff5976;
 $background-color: #fff6fa;
-$ternary-color: #FDDBDB;
+$ternary-color: #fddbdb;
+$main-gradient: linear-gradient(
+  90deg,
+  $primary-color 0%,
+  $secondary-color 100%
+);

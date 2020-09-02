@@ -1,0 +1,20 @@
+@import "../../variables";
+.review-card-container {
+  display: flex;
+  margin: auto;
+  height: 35vh;
+  width: 90vw;
+  overflow-x: scroll;
+  padding-bottom: 5px;
+
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: $primary-color;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $secondary-color;
+  }
+}

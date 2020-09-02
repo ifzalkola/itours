@@ -1,0 +1,29 @@
+.tours-heading {
+  font-size: 3rem;
+  text-transform: uppercase;
+  animation: slide-in 1s ease-in;
+}
+@keyframes slide-in {
+  from {
+    transform: translateX(-700px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+@keyframes slide-in-left {
+  from {
+    transform: translateX(700px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+
+.tours-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 90vw;
+  margin: auto;
+}
