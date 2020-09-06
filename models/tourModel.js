@@ -1,22 +1,22 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const tourSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'A tour must have a name'],
+      required: [true, "A tour must have a name"],
       unique: true,
       trim: true,
-      minlength: [10, 'Tour name should be atleast 10 letters long']
+      minlength: [10, "Tour name should be atleast 10 letters long"]
     },
     price: {
       type: Number,
-      required: [true, 'A tour must have a price']
+      required: [true, "A tour must have a price"]
     },
     coverPhoto: {
       type: String,
-      required: [true, 'A tour must have a cover Photo']
+      required: [true, "A tour must have a cover Photo"]
     },
     photos: [String],
     slug: String,
@@ -27,8 +27,8 @@ const tourSchema = new mongoose.Schema(
         locationPoint: {
           type: {
             type: String,
-            enum: ['Point'],
-            required: [true, 'A tour must a start point']
+            enum: ["Point"],
+            required: [true, "A tour must a start point"]
           },
           coordinates: {
             type: [Number],
@@ -39,12 +39,12 @@ const tourSchema = new mongoose.Schema(
     ],
     duration: {
       type: Number,
-      required: [true, 'A tour must have a duration']
+      required: [true, "A tour must have a duration"]
     },
     tourDescription: {
       type: String,
-      required: [true, 'A tour must have a description'],
-      minlength: [50, 'A tour description must be 50 characters long']
+      required: [true, "A tour must have a description"],
+      minlength: [50, "A tour description must be 50 characters long"]
     },
     createdAt: {
       type: Date,
@@ -67,16 +67,16 @@ const tourSchema = new mongoose.Schema(
     }
   }
 );
-tourSchema.virtual('reviews', {
-  ref: 'Review',
-  foreignField: 'tour',
-  localField: '_id'
+tourSchema.virtual("reviews", {
+  ref: "Review",
+  foreignField: "tour",
+  localField: "_id"
 });
-tourSchema.pre('save', function(next) {
+tourSchema.pre("save", function(next) {
   this.slug = slugify(this.name, {
     lower: true
   });
   next();
 });
-const Tour = mongoose.model('Tour', tourSchema);
+const Tour = mongoose.model("Tour", tourSchema);
 module.exports = Tour;

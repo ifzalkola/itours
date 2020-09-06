@@ -10,7 +10,10 @@ const userSchema = new mongoose.Schema(
       minlength: [10, "Please enter your Full name"],
       required: true
     },
-    photo: String,
+    photo: {
+      type: String,
+      default: "user-photo.png"
+    },
     email: {
       type: String,
       validate: validate({

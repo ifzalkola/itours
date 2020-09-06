@@ -387,7 +387,7 @@
     "locations": [
       {
         "locationName": "Burj Al Arab",
-        "locationDescription": "The Burj Al Arab is a luxurious 5 star hotel located in the city of Dubai, United Arab Emirates.[7] One of the tallest hotels in the world, it is the seventh tallest, although 39% of its total height is made up of non-occupiable space. Burj Al Arab stands on an artificial island 280 m (920 ft) from Jumeirah Beach and is connected to the mainland by a private curving bridge.",
+        "locationDescription": "The Burj Al Arab is a luxurious 5 star hotel located in the city of Dubai, United Arab Emirates. One of the tallest hotels in the world, it is the seventh tallest, although 39% of its total height is made up of non-occupiable space. Burj Al Arab stands on an artificial island 280 m (920 ft) from Jumeirah Beach and is connected to the mainland by a private curving bridge.",
         "locationPoint": {
           "type": "Point",
           "coordinates": [55.183884, 25.1415573]
