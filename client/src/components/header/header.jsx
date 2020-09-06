@@ -1,11 +1,17 @@
-import React from "react";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-import "./header.scss";
+import './header.scss';
 
-const Header = () => {
+const Header = props => {
   return (
     <div className="header">
-      <img src="i-tours-logo.png" alt="logo" className="logo" />
+      <img
+        src="i-tours-logo.png"
+        alt="logo"
+        className="logo"
+        onClick={() => props.history.push('/')}
+      />
       <div className="options">
         <div className="option">Sign In</div>
         <div className="option">About</div>
@@ -15,4 +21,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default withRouter(Header);

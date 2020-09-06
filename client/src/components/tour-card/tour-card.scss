@@ -1,4 +1,4 @@
-@import "../../variables";
+@import '../../variables';
 .card {
   perspective: 1500px;
   height: 420px;
@@ -14,7 +14,9 @@
     animation: slide-in-left 0.5s ease-in;
     animation-delay: 0.3s;
   }
-
+  @media screen and (max-width: 768px) {
+    height: 30vh;
+  }
   .card-side {
     backface-visibility: hidden;
     position: absolute;
@@ -47,6 +49,9 @@
     }
   }
   .card-front {
+    @media screen and (max-width: 768px) {
+      font-size: small;
+    }
     position: relative;
     display: flex;
     flex-direction: column;
@@ -54,6 +59,9 @@
     font-size: x-large;
     background-image: $main-gradient;
     h4 {
+      @media screen and (max-width: 768px) {
+        font-size: x-large;
+      }
       font-size: xx-large;
       padding: 0 15px;
       color: white;

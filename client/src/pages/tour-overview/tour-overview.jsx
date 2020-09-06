@@ -1,13 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import "./tour-overview.scss";
+import './tour-overview.scss';
+import MapBox from '../../components/map/map';
 
 const TourDescription = ({ locations, photos }) => {
+  let key = 123;
   return (
-    <React.Fragment>
+    <React.Fragment key={key++}>
       {photos.map((photo, index) => {
         return (
-          <div className="tour-description">
+          <div className="tour-description" key={key++}>
             <div
               className="photo"
               style={{ backgroundImage: `url('./images/tours/${photo}')` }}
@@ -25,68 +27,58 @@ const TourDescription = ({ locations, photos }) => {
     </React.Fragment>
   );
 };
-const TourOverview = () => {
+const TourOverview = props => {
   const { name, coverPhoto, photos, locations, tourDescription } = {
-    name: "The Lovely Paris",
-    price: 75000,
-    duration: 5,
-    coverPhoto: "paris-cover-photo.jpg",
+    name: 'The Voluptuous Venice',
+    price: 50000,
+    duration: 4,
+    coverPhoto: 'venice-cover-photo.jpg',
     photos: [
-      "louvre-palace.jpg",
-      "arc-de-triomphe.jpg",
-      "disneyland.jpg",
-      "chateau-de-chambord.jpg",
-      "eiffel-tower.jpg",
+      'grand-canal.jpg',
+      'venetian-lagoon.jpg',
+      'st-marks-square.jpg',
+      'bridge-of-sighs.jpg'
     ],
     locations: [
       {
-        locationName: "Louvre Palace",
+        locationName: 'Grand Canal',
         locationDescription:
-          "Originally a fortress built in the medieval period, it became a royal palace in the fourteenth century under Charles V and was used from time to time by the kings of France as their main Paris residence. Its present structure has evolved in stages since the 16th century",
+          'Canale Grande or Grand Canal is the most important icon of Venice- lined with gorgeous and vibrant looking palaces and castles on both sides. The canal is one of the best places to visit in Venice and meanders through the city in a zigzag way with a few breathtaking bridges built over it',
         locationPoint: {
-          type: "Point",
-          coordinates: [2.3340148, 48.8603289],
-        },
+          type: 'Point',
+          coordinates: [12.316877, 45.4373305]
+        }
       },
       {
-        locationName: "Arc de Triomphe",
+        locationName: 'Venetian Lagoon',
         locationDescription:
-          "The Arc de Triomphe de l'Étoile is one of the most famous monuments in Paris, France, standing at the western end of the Champs-Élysées at the centre of Place Charles de Gaulle, formerly named Place de l'Étoile—the étoile or 'star' of the juncture formed by its twelve radiating avenues.",
+          "The Venetian Lagoon is an enclosed bay of the Adriatic Sea, in northern Italy, in which the city of Venice is situated. Its name in the Italian and Venetian languages, Laguna Veneta—cognate of Latin lacus, 'lake'—has provided the English name for an enclosed, shallow embayment of salt water, a lagoon.",
         locationPoint: {
-          type: "Point",
-          coordinates: [2.295, 48.8738],
-        },
+          type: 'Point',
+          coordinates: [12.276356, 45.3761216]
+        }
       },
       {
-        locationName: "Disneyland Paris",
+        locationName: "St Mark's Square",
         locationDescription:
-          "Disneyland Paris, formerly Euro Disney Resort, is an entertainment resort in Chessy, France, a new town located 32 km (20 mi) east of the centre of Paris. It encompasses two theme parks, many resort hotels, Disney Nature Resorts, a shopping, dining, and entertainment complex, and a golf course, in addition to several additional recreational and entertainment venues.",
+          "St Mark's Square is the most crowded public square and one of the most happening places to visit in Venice, located in front of St. Mark’s Basilica and Doge’s Palace. The square is separated from the palace by a small inland waterway, known as the Rio Batario. This is the place where all the government buildings and other offices are located in Venice. It is no doubt one of the best places to visit in Venice.",
         locationPoint: {
-          type: "Point",
-          coordinates: [2.7912, 48.8616],
-        },
+          type: 'Point',
+          coordinates: [12.3375331, 45.4341568]
+        }
       },
       {
-        locationName: "Château de Chambord",
+        locationName: 'Bridge of Sighs',
         locationDescription:
-          "The Château de Chambord in Chambord, Loir-et-Cher, France, is one of the most recognisable châteaux in the world because of its very distinctive French Renaissance architecture which blends traditional French medieval forms with classical Renaissance structures.",
+          "The Bridge of Sighs is a bridge in Venice, Italy. The enclosed bridge is made of white limestone, has windows with stone bars, passes over the Rio di Palazzo, and connects the New Prison to the interrogation rooms in the Doge's Palace. It was designed by Antonio Contino, whose uncle Antonio da Ponte designed the Rialto Bridge, and it was built in 1600",
         locationPoint: {
-          type: "Point",
-          coordinates: [1.5121669, 47.6174852],
-        },
-      },
-      {
-        locationName: "Eiffel Tower",
-        locationDescription:
-          "The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.",
-        locationPoint: {
-          type: "Point",
-          coordinates: [2.2945, 48.8584],
-        },
-      },
+          type: 'Point',
+          coordinates: [12.3397601, 45.4340515]
+        }
+      }
     ],
     tourDescription:
-      "Paris, France's capital, is a major European city and a global center for art, fashion, gastronomy and culture. Its 19th-century cityscape is crisscrossed by wide boulevards and the River Seine. Beyond such landmarks as the Eiffel Tower and the 12th-century, Gothic Notre-Dame cathedral, the city is known for its cafe culture and designer boutiques along the Rue du Faubourg Saint-Honoré.",
+      'The floating city of Venice looks like a picture postcard with crisscrossing canals, marvelous castles, ancient museums, cathedrals, art galleries, churches, and public squares. The attractions make for the most preferred and best places to visit in Venice and cast a fervent charm on the tourists. One of the most frequented places by the lovebirds, Venice is truly a charmer attracting millions of tourist round the year'
   };
   return (
     <div className="tour-overview">
@@ -104,6 +96,11 @@ const TourOverview = () => {
       <h2>Places to visit</h2>
       <div className="tours-description">
         <TourDescription photos={photos} locations={locations} />
+      </div>
+      <MapBox locations={locations} />
+      <div className="booking-label">
+        <h2>Want To Visit Exotic Places?</h2>
+        <button>Book Now!</button>
       </div>
     </div>
   );

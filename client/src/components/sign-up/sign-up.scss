@@ -7,6 +7,9 @@
     font-size: x-large;
     margin: 40px 0;
   }
-  .input-field {
+  @media screen and(max-width: 768px) {
+    width: 90vw;
+    margin: auto;
+    margin-top: 20vh;
   }
 }

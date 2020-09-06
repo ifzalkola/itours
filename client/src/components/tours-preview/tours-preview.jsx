@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import TourCard from "../tour-card/tour-card";
+import TourCard from '../tour-card/tour-card';
 
-import TOUR_DATA from "./tour-data";
+import TOUR_DATA from './tour-data';
 
-import "./tours-preview.scss";
+import './tours-preview.scss';
 
 const ToursPreview = () => {
   return (
