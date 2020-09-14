@@ -1,24 +1,44 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './header.scss';
+import { signOutStart } from '../../redux/user/user-actions';
 
-const Header = props => {
+const Header = ({ history, user, signOut }) => {
   return (
     <div className="header">
       <img
-        src="i-tours-logo.png"
+        src="/i-tours-logo.png"
         alt="logo"
         className="logo"
-        onClick={() => props.history.push('/')}
+        onClick={() => history.push('/')}
       />
       <div className="options">
-        <div className="option">Sign In</div>
+        {user ? (
+          <div
+            className="option"
+            onClick={() => {
+              signOut();
+            }}
+          >
+            Sign Out
+          </div>
+        ) : (
+          <div className="option" onClick={() => history.goBack()}>
+            Sign In
+          </div>
+        )}
         <div className="option">About</div>
         <div className="option">User</div>
       </div>
     </div>
   );
 };
-
-export default withRouter(Header);
+const mapStateToProps = ({ user: { currentUser } }) => ({
+  user: currentUser
+});
+const mapDispatchToProps = dispatch => ({
+  signOut: () => dispatch(signOutStart())
+});
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

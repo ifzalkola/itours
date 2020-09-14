@@ -1,30 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import TourCard from '../tour-card/tour-card';
-
-import TOUR_DATA from './tour-data';
+import withSpinner from '../withSpinner/with-spinner';
 
 import './tours-preview.scss';
+import {
+  selectAllTours,
+  selectAreToursLoaded
+} from '../../redux/tour/tour-selectors';
 
-const ToursPreview = () => {
+const ToursPreview = ({ tours }) => {
   return (
     <div>
       <h1 className="tours-heading">All Tours</h1>
       <div className="tours-preview">
-        {TOUR_DATA.map(
-          ({ name, price, locations, duration, coverPhoto }, index) => (
-            <TourCard
-              name={name}
-              key={index}
-              price={price}
-              locations={locations}
-              duration={duration}
-              coverPhoto={coverPhoto}
-            />
-          )
-        )}
+        {tours.map(({ _id, ...props }, index) => (
+          <TourCard key={_id} {...props} />
+        ))}
       </div>
     </div>
   );
 };
-export default ToursPreview;
+const ToursPreviewWithSpinner = withSpinner(ToursPreview);
+const ToursPreviewContainer = props => {
+  return <ToursPreviewWithSpinner isLoading={props.loading} {...props} />;
+};
+const mapStateToProps = state => ({
+  tours: selectAllTours(state),
+  loading: !selectAreToursLoaded(state)
+});
+export default connect(mapStateToProps)(ToursPreviewContainer);

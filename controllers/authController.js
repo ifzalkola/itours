@@ -15,6 +15,11 @@ const generateToken = id => {
 };
 const sendToken = (user, res, statusCode) => {
   const token = generateToken(user._id);
+  const cookieOptions = {
+    expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+    httpOnly: true
+  };
+  res.cookie('jwt', token, cookieOptions);
   user.password = undefined;
   res.status(statusCode).json({
     status: 'success',
@@ -25,16 +30,16 @@ const sendToken = (user, res, statusCode) => {
   });
 };
 exports.isLoggedIn = catchAsync(async (req, res, next) => {
-  console.log('hello');
   if (!req.cookies.jwt) {
     return next(new AppError(401, 'No jwt'));
   }
   const token = req.cookies.jwt;
-  const decoded = await promisify(jwt.verify)((token, process.env.JWT_SECRET));
-  console.log(decoded);
-  const user = await User.findById();
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  const user = await User.findById(mongoose.Types.ObjectId(decoded.id));
   if (!user || user.passwordChangedAfter(decoded.iat)) {
-    return next(new AppError(401, 'No User'));
+    return res.json({
+      isLoggedIn: false
+    });
   }
   res.json({
     isLoggedIn: true,
@@ -82,19 +87,10 @@ exports.restrictTo = (...roles) => {
   };
 };
 exports.signUp = catchAsync(async (req, res, next) => {
-  const {
-    fullName,
-    userName,
-    photo,
-    email,
-    password,
-    passwordConfirm
-  } = req.body;
+  const { fullName, email, password, passwordConfirm } = req.body;
   const newUser = await User.create({
     fullName,
-    userName,
     email,
-    photo,
     password,
     passwordConfirm
   });
@@ -113,6 +109,15 @@ exports.signin = catchAsync(async (req, res, next) => {
     return next(new AppError(401, 'Invalid Password'));
   }
   sendToken(user, res, 200);
+});
+exports.signOut = catchAsync(async (req, res, next) => {
+  res.cookie('jwt', 'jwt', {
+    expires: new Date(Date.now() + 1000)
+  });
+  res.json({
+    status: 'success',
+    message: 'Signed Out Successfully'
+  });
 });
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const { email } = req.body;

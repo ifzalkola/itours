@@ -1,6 +1,8 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 const sharp = require('sharp');
 const multer = require('multer');
+const mongoose = require('mongoose');
+
 const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -36,9 +38,27 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
   });
 });
 exports.getTour = catchAsync(async (req, res, next) => {
-  const tour = await (await Tour.findOne({ slug: req.params.slug })).populate(
-    'reviews'
-  );
+  const tour = await Tour.findById(
+    mongoose.Types.ObjectId(req.params.id)
+  ).populate('reviews');
+  if (!tour) {
+    return next(new AppError(404, 'No tour found with this id'));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour
+    }
+  });
+});
+exports.getTourBySlug = catchAsync(async (req, res, next) => {
+  const tour = await Tour.findOne({ slug: req.params.slug }).populate({
+    path: 'reviews',
+    populate: {
+      path: 'user',
+      model: 'User'
+    }
+  });
   if (!tour) {
     return next(new AppError(404, 'No tour found with this slug'));
   }

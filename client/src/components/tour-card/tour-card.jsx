@@ -1,17 +1,26 @@
-import React from "react";
+import React from 'react';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { withRouter } from 'react-router-dom';
 
-import "./tour-card.scss";
+import './tour-card.scss';
 
-const TourCard = ({ name, price, duration, coverPhoto, locations }) => {
+const TourCard = ({
+  name,
+  price,
+  duration,
+  coverPhoto,
+  locations,
+  history,
+  slug
+}) => {
   return (
     <div className="card">
       <div className="card-side card-front">
         <div
           className="img-container"
           style={{
-            backgroundImage: `url('./images/tours/${coverPhoto}')`,
+            backgroundImage: `url('./images/tours/${coverPhoto}')`
           }}
         >
           &nbsp;
@@ -41,9 +50,11 @@ const TourCard = ({ name, price, duration, coverPhoto, locations }) => {
         </div>
       </div>
       <div className="card-side card-back">
-        <button className="btn">Book Now</button>
+        <button className="btn" onClick={() => history.push(`/tours/${slug}`)}>
+          Book Now
+        </button>
       </div>
     </div>
   );
 };
-export default TourCard;
+export default withRouter(TourCard);

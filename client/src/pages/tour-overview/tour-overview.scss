@@ -189,13 +189,13 @@
       }
     }
     .tours-description {
-      height: 150vh;
       .tour-description {
         height: unset;
         flex: 1;
         display: flex;
-        // height: 30vh;
+        height: 30vh;
         width: 70vw;
+
         margin: 1rem auto;
         flex-direction: column;
 

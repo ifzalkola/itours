@@ -29,9 +29,11 @@ const handleErrorDev = (res, err) => {
   });
 };
 module.exports = (err, req, res, next) => {
+  console.log(err);
   let error;
   error = { ...err };
   error.message = err.message;
+  error.stack = err.stack;
   if (process.env.NODE_ENV === 'development') {
     handleErrorDev(res, error);
   } else {

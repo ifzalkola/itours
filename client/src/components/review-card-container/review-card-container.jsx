@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import "./review-card-container.scss";
-import ReviewCard from "../review-card/review-card";
+import './review-card-container.scss';
+import ReviewCard from '../review-card/review-card';
 
-const ReviewCardContainer = () => (
+const ReviewCardContainer = ({ reviews }) => (
   <div className="review-card-container">
-    <ReviewCard />
+    {reviews.map(review => (
+      <ReviewCard review={review} />
+    ))}
   </div>
 );
 

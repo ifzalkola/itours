@@ -14,10 +14,11 @@ router
     userController.resizePhoto,
     userController.updateUser
   );
-router.route('/isLoggedIn').get(authController.isLoggedIn);
+router.route('/isLoggedIn').post(authController.isLoggedIn);
 router.route('/:id').get(userController.getUser);
 
 router.route('/signin').post(authController.signin);
+router.route('/signout').post(authController.signOut);
 router
   .route('/update-password')
   .patch(authController.protect, authController.updatePassword);

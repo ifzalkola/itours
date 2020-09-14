@@ -13,6 +13,7 @@ router
     authController.restrictTo('admin'),
     tourController.addTour
   );
+router.get('/get-tour-by-slug/:slug', tourController.getTourBySlug);
 router.route('/:id').get(tourController.getTour);
 router.use(authController.protect, authController.restrictTo('admin'));
 router

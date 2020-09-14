@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { loadStripe } from '@stripe/stripe-js';
+
+import { fetchTourBySlugAsync } from '../../redux/tour/tour-actions';
+import MapBox from '../../components/map/map';
+import withSpinner from '../../components/withSpinner/with-spinner';
 
 import './tour-overview.scss';
-import MapBox from '../../components/map/map';
+import {
+  selectTour,
+  selectIsTourLoaded
+} from '../../redux/tour/tour-selectors';
+import Axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import ReviewCardContainer from '../../components/review-card-container/review-card-container';
+
+const stripePromise = loadStripe(
+  'pk_test_51Gu2DXAeW4SghGpCshSJeunuJYkCA7OK60gAh75ss2bYFX5oCyWpgELzRGhYlb06dCxAolYuLLLkKBnjXMgkABrz002hOxt0k1'
+);
 
 const TourDescription = ({ locations, photos }) => {
   let key = 123;
@@ -12,7 +28,7 @@ const TourDescription = ({ locations, photos }) => {
           <div className="tour-description" key={key++}>
             <div
               className="photo"
-              style={{ backgroundImage: `url('./images/tours/${photo}')` }}
+              style={{ backgroundImage: `url('../images/tours/${photo}')` }}
             >
               <span className="location-name">
                 {locations[index].locationName}
@@ -27,65 +43,42 @@ const TourDescription = ({ locations, photos }) => {
     </React.Fragment>
   );
 };
-const TourOverview = props => {
-  const { name, coverPhoto, photos, locations, tourDescription } = {
-    name: 'The Voluptuous Venice',
-    price: 50000,
-    duration: 4,
-    coverPhoto: 'venice-cover-photo.jpg',
-    photos: [
-      'grand-canal.jpg',
-      'venetian-lagoon.jpg',
-      'st-marks-square.jpg',
-      'bridge-of-sighs.jpg'
-    ],
-    locations: [
-      {
-        locationName: 'Grand Canal',
-        locationDescription:
-          'Canale Grande or Grand Canal is the most important icon of Venice- lined with gorgeous and vibrant looking palaces and castles on both sides. The canal is one of the best places to visit in Venice and meanders through the city in a zigzag way with a few breathtaking bridges built over it',
-        locationPoint: {
-          type: 'Point',
-          coordinates: [12.316877, 45.4373305]
-        }
-      },
-      {
-        locationName: 'Venetian Lagoon',
-        locationDescription:
-          "The Venetian Lagoon is an enclosed bay of the Adriatic Sea, in northern Italy, in which the city of Venice is situated. Its name in the Italian and Venetian languages, Laguna Veneta—cognate of Latin lacus, 'lake'—has provided the English name for an enclosed, shallow embayment of salt water, a lagoon.",
-        locationPoint: {
-          type: 'Point',
-          coordinates: [12.276356, 45.3761216]
-        }
-      },
-      {
-        locationName: "St Mark's Square",
-        locationDescription:
-          "St Mark's Square is the most crowded public square and one of the most happening places to visit in Venice, located in front of St. Mark’s Basilica and Doge’s Palace. The square is separated from the palace by a small inland waterway, known as the Rio Batario. This is the place where all the government buildings and other offices are located in Venice. It is no doubt one of the best places to visit in Venice.",
-        locationPoint: {
-          type: 'Point',
-          coordinates: [12.3375331, 45.4341568]
-        }
-      },
-      {
-        locationName: 'Bridge of Sighs',
-        locationDescription:
-          "The Bridge of Sighs is a bridge in Venice, Italy. The enclosed bridge is made of white limestone, has windows with stone bars, passes over the Rio di Palazzo, and connects the New Prison to the interrogation rooms in the Doge's Palace. It was designed by Antonio Contino, whose uncle Antonio da Ponte designed the Rialto Bridge, and it was built in 1600",
-        locationPoint: {
-          type: 'Point',
-          coordinates: [12.3397601, 45.4340515]
-        }
-      }
-    ],
-    tourDescription:
-      'The floating city of Venice looks like a picture postcard with crisscrossing canals, marvelous castles, ancient museums, cathedrals, art galleries, churches, and public squares. The attractions make for the most preferred and best places to visit in Venice and cast a fervent charm on the tourists. One of the most frequented places by the lovebirds, Venice is truly a charmer attracting millions of tourist round the year'
+const TourOverview = ({ tour, user, history }) => {
+  const {
+    name,
+    coverPhoto,
+    photos,
+    locations,
+    tourDescription,
+    price,
+    reviews
+  } = tour;
+  const handleCheckout = async e => {
+    if (!user) {
+      return history.push('/signin');
+    }
+    const stripe = await stripePromise;
+
+    const response = await Axios.post('/create-checkout-session', {
+      tourName: name,
+      amount: price,
+      email: user.email,
+      photo: coverPhoto
+    });
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: response.data.id
+    });
+    if (result.error) {
+      console.log('payment unsuccessful');
+    }
   };
   return (
     <div className="tour-overview">
       <div className="showcase">
         <div
           className="cover-photo"
-          style={{ backgroundImage: `url('./images/tours/${coverPhoto}')` }}
+          style={{ backgroundImage: `url('../images/tours/${coverPhoto}')` }}
         >
           &nbsp;
         </div>
@@ -98,11 +91,35 @@ const TourOverview = props => {
         <TourDescription photos={photos} locations={locations} />
       </div>
       <MapBox locations={locations} />
+      {reviews.length ? (
+        <React.Fragment>
+          <h2>Reviews</h2>
+          <ReviewCardContainer reviews={reviews} />
+        </React.Fragment>
+      ) : null}
       <div className="booking-label">
         <h2>Want To Visit Exotic Places?</h2>
-        <button>Book Now!</button>
+        <button onClick={handleCheckout}>Pay Now</button>
       </div>
     </div>
   );
 };
-export default TourOverview;
+const TourOverviewWithSpinner = withSpinner(TourOverview);
+const TourOverviewPage = props => {
+  useEffect(() => {
+    props.fetchTourStart(props.match.params.slug);
+    window.scrollTo(0, 0);
+  }, []);
+  return <TourOverviewWithSpinner isLoading={props.isLoading} {...props} />;
+};
+const mapStateToProps = (state, ownProps) => ({
+  tour: selectTour(state),
+  isLoading: !selectIsTourLoaded(ownProps.match.params.slug)(state),
+  user: state.user.currentUser
+});
+const mapDispatchToProps = dispatch => ({
+  fetchTourStart: slug => dispatch(fetchTourBySlugAsync(slug))
+});
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TourOverviewPage)
+);

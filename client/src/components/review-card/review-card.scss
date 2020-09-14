@@ -1,4 +1,4 @@
-@import "../../variables";
+@import '../../variables';
 .review-card {
   display: flex;
   justify-content: space-between;
@@ -10,6 +10,10 @@
   background: $primary-color;
   margin: 0 1.2rem;
   border-radius: 10px;
+  @media screen and (max-width: 768px) {
+    min-width: 70%;
+    max-width: 70%;
+  }
 
   .profile-wrapper {
     width: 40%;
@@ -18,7 +22,6 @@
     justify-content: space-around;
 
     .profile-photo {
-      // background-image: url("../images/michael-dam-mEZ3PoFGs_k-unsplash.jpg");
       background-size: 100% 100%;
       flex: 9;
       margin-top: 1rem;

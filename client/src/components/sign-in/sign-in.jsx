@@ -1,21 +1,28 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-import "./sign-in.scss";
+import './sign-in.scss';
 
-import InputField from "../input-field/input-field";
-import CustomButton from "../custom-button/custom-button";
+import InputField from '../input-field/input-field';
+import CustomButton from '../custom-button/custom-button';
+import { signInStart } from '../../redux/user/user-actions';
 
-const SignIn = () => {
+const SignIn = ({ signInStart }) => {
   const [userCredentials, setUserCredentials] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: ''
   });
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
+
+    signInStart(userCredentials);
+    setUserCredentials({
+      email: '',
+      password: ''
+    });
   };
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
-    console.log(event.target);
     setUserCredentials({ ...userCredentials, [name]: value });
   };
   const { email, password } = userCredentials;
@@ -45,4 +52,9 @@ const SignIn = () => {
     </form>
   );
 };
-export default SignIn;
+
+const mapDispatchToProps = dispatch => ({
+  signInStart: userCredentials => dispatch(signInStart(userCredentials))
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);
