@@ -2,12 +2,7 @@
 const AppError = require('../utils/appError');
 
 const handleDBDuplicateId = err => {
-  return new AppError(
-    400,
-    `Duplicate Entry: ${Object.keys(err.keyValue)
-      .map(key => err.keyValue[key])
-      .join('')}`
-  );
+  return new AppError(400, `${Object.keys(err.keyValue)[0]} already exists`);
 };
 const handleErrorProd = (res, err) => {
   if (err.isOperational) {

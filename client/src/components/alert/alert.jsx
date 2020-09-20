@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import "./alert.scss";
+import './alert.scss';
 
-const Alert = (props) => {
+const Alert = ({ message, type }) => {
   return (
-    <div className={`alert ${props.success ? "success" : "error"}`}>
-      {props.children}
+    <div className={`alert ${type === 'success' ? 'success' : 'error'}`}>
+      {message}
     </div>
   );
 };

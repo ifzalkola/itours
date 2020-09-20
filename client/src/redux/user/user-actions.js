@@ -1,5 +1,7 @@
 import userActionTypes from './user-types';
+import store from '../store';
 import axios from 'axios';
+import { showAlert } from '../alert/alert-actions';
 
 export const setCurrentUser = user => ({
   type: userActionTypes.SET_CURRENT_USER,
@@ -30,13 +32,16 @@ export const signInFailure = error => ({
   payload: error
 });
 export const signInStart = userCredentials => {
-  return dispatch => {
+  return async dispatch => {
     axios
       .post('/api/users/signin', userCredentials)
       .then(res => {
         dispatch(signInSuccess(res.data.data.user));
+        dispatch(showAlert('Signed In Successfully', 'success'));
       })
-      .catch(err => dispatch(signInFailure(err)));
+      .catch(err => {
+        dispatch(showAlert(err.response.data.message, 'error'));
+      });
   };
 };
 export const signUpStart = userCredentials => {
@@ -44,7 +49,9 @@ export const signUpStart = userCredentials => {
     axios
       .post('/api/users', userCredentials)
       .then(res => dispatch(signUpSuccess(res.data.data.user)))
-      .catch(err => dispatch(signUpFailure(err)));
+      .catch(err => {
+        dispatch(showAlert(err.response.data.message, 'error'));
+      });
   };
 };
 export const signOutStart = () => {

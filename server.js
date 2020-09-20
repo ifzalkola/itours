@@ -5,6 +5,7 @@ const app = require('./app');
 dotenv.config({
   path: './config.env'
 });
+process.env.NODE_ENV = 'production';
 const DB_URL = process.env.DB_URL.replace('<password>', process.env.DB_PASS);
 mongoose
   .connect(DB_URL, {

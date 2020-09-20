@@ -15,7 +15,7 @@ const ToursPreview = ({ tours }) => {
     <div>
       <h1 className="tours-heading">All Tours</h1>
       <div className="tours-preview">
-        {tours.map(({ _id, ...props }, index) => (
+        {tours.map(({ _id, ...props }) => (
           <TourCard key={_id} {...props} />
         ))}
       </div>

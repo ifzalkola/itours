@@ -6,6 +6,9 @@
   border-radius: 5px;
   padding: 10px;
   overflow: hidden;
+  z-index: 10;
+  animation: slide-in-y 0.1s ease-in;
+  transition: all ease-in;
   &.success {
     background-color: #5cb85c;
     color: wheat;
@@ -13,5 +16,13 @@
   &.error {
     background-color: #ff0033;
     color: wheat;
+  }
+}
+@keyframes slide-in-y {
+  from {
+    transform: translateY(-150px);
+  }
+  to {
+    transform: translateY(0);
   }
 }

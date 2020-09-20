@@ -25,7 +25,7 @@ const Header = ({ history, user, signOut }) => {
             Sign Out
           </div>
         ) : (
-          <div className="option" onClick={() => history.goBack()}>
+          <div className="option" onClick={() => history.push('/signin')}>
             Sign In
           </div>
         )}
