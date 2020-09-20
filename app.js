@@ -2,9 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const stripe = require('stripe')(
-  'sk_test_51Gu2DXAeW4SghGpCcHPgkrrBeAoyQPrPhB98elZPdGNHXzSrotHCMrARQDMYu9AQhmqEalZ0UmH2ihYmvj26z2OS00u2GV8In3'
-);
+const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 const userRouter = require('./routes/userRoutes');
 const tourRouter = require('./routes/tourRoutes');
