@@ -28,7 +28,7 @@ export const fetchToursStartAsync = () => {
     dispatch(fetchToursStart());
     Axios.get('/api/tours')
       .then(res => dispatch(fetchToursSuccess(res.data.data.tours)))
-      .catch(err => dispatch(err.message));
+      .catch(err => dispatch(fetchToursFailure(err.message)));
   };
 };
 export const fetchTourBySlugAsync = slug => {
