@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1heroku logs --tail.0.0",
+  "version": "1.0.0",
   "engines": {
     "node": "12.14.0",
     "npm": "6.13.4"
