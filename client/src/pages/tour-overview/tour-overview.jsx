@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { loadStripe } from '@stripe/stripe-js';
 
 import { fetchTourBySlugAsync } from '../../redux/tour/tour-actions';
 import MapBox from '../../components/map/map';
@@ -11,13 +10,8 @@ import {
   selectTour,
   selectIsTourLoaded
 } from '../../redux/tour/tour-selectors';
-import Axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import ReviewCardContainer from '../../components/review-card-container/review-card-container';
-
-const stripePromise = loadStripe(
-  'pk_test_51Gu2DXAeW4SghGpCshSJeunuJYkCA7OK60gAh75ss2bYFX5oCyWpgELzRGhYlb06dCxAolYuLLLkKBnjXMgkABrz002hOxt0k1'
-);
 
 const TourDescription = ({ locations, photos }) => {
   let key = 123;
@@ -50,29 +44,8 @@ const TourOverview = ({ tour, user, history }) => {
     photos,
     locations,
     tourDescription,
-    price,
     reviews
   } = tour;
-  const handleCheckout = async e => {
-    if (!user) {
-      return history.push('/signin');
-    }
-    const stripe = await stripePromise;
-
-    const response = await Axios.post('/create-checkout-session', {
-      tourName: name,
-      amount: price,
-      email: user.email,
-      photo: coverPhoto
-    });
-
-    const result = await stripe.redirectToCheckout({
-      sessionId: response.data.id
-    });
-    if (result.error) {
-      console.log('payment unsuccessful');
-    }
-  };
   return (
     <div className="tour-overview">
       <div className="showcase">
@@ -99,7 +72,7 @@ const TourOverview = ({ tour, user, history }) => {
       ) : null}
       <div className="booking-label">
         <h2>Want To Visit Exotic Places?</h2>
-        <button onClick={handleCheckout}>Pay Now</button>
+        <button onClick={() => history.push('/checkout')}>Pay Now</button>
       </div>
     </div>
   );

@@ -30,7 +30,9 @@ const Header = ({ history, user, signOut }) => {
           </div>
         )}
         <div className="option">About</div>
-        <div className="option">User</div>
+        <div className="option" onClick={() => history.push('/me')}>
+          User
+        </div>
       </div>
     </div>
   );

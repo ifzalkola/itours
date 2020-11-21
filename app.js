@@ -2,6 +2,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const dotenv = require('dotenv');
+
+dotenv.config({
+  path: './config.env'
+});
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 
 const userRouter = require('./routes/userRoutes');
@@ -11,43 +16,33 @@ const bookingRouter = require('./routes/bookingRoutes');
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
-
-app.use(logger('dev'));
+if (process.env.NODE_ENV === 'development') app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'client/public')));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+} else {
+  app.use(express.static(path.join(__dirname, 'client/public')));
+}
 
 app.use('/api/users', userRouter);
 app.use('/api/tours', tourRouter);
 app.use('/api/reviews', reviewRouter);
 app.use('/api/bookings', bookingRouter);
-app.post('/create-checkout-session', async (req, res) => {
+app.post('/get-payment-intent', async (req, res) => {
   try {
-    const redirectUrl = req.header('referer');
-    const { tourName, amount, email, photo } = req.body;
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'inr',
-            product_data: {
-              name: `Tour: ${tourName}`,
-              images: [`${redirectUrl}/images/tours/${photo}`]
-            },
-            unit_amount: amount * 100
-          },
-          quantity: 1
-        }
-      ],
-      customer_email: email,
-      mode: 'payment',
-      success_url: redirectUrl,
-      cancel_url: redirectUrl
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: req.body.amount,
+      currency: 'inr',
+      metadata: { integration_check: 'accept_a_payment' }
     });
     res.json({
-      id: session.id
+      client_secret: paymentIntent.client_secret
     });
   } catch (err) {
     console.log(err);

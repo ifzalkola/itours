@@ -5,6 +5,10 @@ const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+const imgadress =
+  process.env.NODE_ENV === 'production'
+    ? './client/build/images'
+    : './client/public/images';
 const filterObj = (obj, ...allowedFields) => {
   const filteredObject = {};
   Object.keys(obj).forEach(el => {
@@ -33,8 +37,9 @@ const upload = multer({
   storage,
   fileFilter
 });
-exports.uploadPhoto = upload.single('photo');
+exports.uploadPhoto = upload.single('coverPhoto');
 exports.resizePhoto = catchAsync(async (req, res, next) => {
+  console.log(req.file);
   if (!req.file) {
     return next();
   }
@@ -45,7 +50,7 @@ exports.resizePhoto = catchAsync(async (req, res, next) => {
     })
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/images/users/${req.file.filename}`);
+    .toFile(`${imgadress}/users/${req.file.filename}`);
   next();
 });
 exports.updateUser = catchAsync(async (req, res, next) => {
@@ -57,7 +62,7 @@ exports.updateUser = catchAsync(async (req, res, next) => {
       )
     );
   }
-  const filteredObject = filterObj(req.body, 'fullName', 'email');
+  const filteredObject = filterObj(req.body, 'fullName');
   if (req.file) filteredObject.photo = req.file.filename;
   console.log(filteredObject);
   const updatedUser = await User.findOneAndUpdate(

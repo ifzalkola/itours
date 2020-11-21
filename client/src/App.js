@@ -21,6 +21,8 @@ import { checkUserSession } from './redux/user/user-actions';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchToursStartAsync } from './redux/tour/tour-actions';
+import StripeCheckout from './components/stripe-checkout/stripe-checkout';
+import AccountPage from './pages/account/account';
 
 library.add(faMapMarked, faClock, faStar, faRupeeSign, faStarHalf, fab);
 function App({
@@ -49,6 +51,24 @@ function App({
           path="/signin"
           render={() =>
             currentUser ? <Redirect to="/" /> : <SignInAndSignUp />
+          }
+        />
+        <Route
+          exact
+          path="/me"
+          render={() =>
+            currentUser ? (
+              <AccountPage currentUser={currentUser} />
+            ) : (
+              <Redirect to="/" />
+            )
+          }
+        />
+        <Route
+          exact
+          path="/checkout"
+          render={() =>
+            currentUser ? <StripeCheckout /> : <Redirect to="/" />
           }
         />
       </Switch>

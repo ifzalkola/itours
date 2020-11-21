@@ -1,5 +1,4 @@
 import userActionTypes from './user-types';
-import store from '../store';
 import axios from 'axios';
 import { showAlert } from '../alert/alert-actions';
 

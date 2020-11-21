@@ -1,0 +1,27 @@
+.StripeElement {
+  height: 40x;
+  padding: 10px 12px;
+  width: 50vw;
+  margin: 20px auto;
+
+  color: #fefde5;
+  background-color: #2f1a35;
+  border: 1px solid transparent;
+  border-radius: 4px;
+
+  box-shadow: 0 1px 3px 0 #2f1a35;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #2f1a35;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #2f1a35 !important;
+}

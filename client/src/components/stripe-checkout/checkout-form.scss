@@ -1,0 +1,17 @@
+.item-details {
+  width: 90vw;
+  margin: auto;
+  display: flex;
+  margin-bottom: 20px;
+  .checkout-cover {
+    width: 500px;
+    border-radius: 5px;
+  }
+  .checkout-details {
+    margin-left: 2rem;
+    text-align: left;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+}
